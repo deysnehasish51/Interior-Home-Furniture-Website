@@ -1,5 +1,6 @@
-const CACHE_NAME = "interior-home-cache-v1";
+const CACHE_NAME = "interior-home-cache-v2";
 const urlsToCache = [
+  "/",
   "index.html",
   "about.html",
     "contact.html",
@@ -72,13 +73,26 @@ self.addEventListener("activate", (event) => {
 });
 
 // Fetch event
-self.addEventListener("fetch", (event) => {
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    }).catch(() => {
-      // Optional fallback page
-      return caches.match("offline.html");
-    })
+    caches.match(event.request)
+      .then(cachedResponse => {
+        if (cachedResponse) return cachedResponse;
+
+        return fetch(event.request).catch(() => {
+          // Serve index.html for navigation requests
+          if (event.request.mode === 'navigate') {
+            return caches.match('/index.html');
+          }
+
+          // Fallback message for other assets
+          return new Response('Offline: Resource unavailable.', {
+            status: 503,
+            headers: { 'Content-Type': 'text/plain' }
+          });
+        });
+      })
   );
 });
+
+
