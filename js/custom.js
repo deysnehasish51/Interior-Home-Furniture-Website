@@ -1,73 +1,56 @@
-(function() {
-	'use strict';
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registered with scope:', registration.scope);
+            })
+            .catch(error => {
+                console.log('ServiceWorker registration failed:', error);
+            });
+    });
+}
 
-	var tinyslider = function() {
-		var el = document.querySelectorAll('.testimonial-slider');
+// Initialize Testimonial Slider
+document.querySelectorAll(".testimonial-slider").length > 0 &&
+    tns({
+        container: ".testimonial-slider",
+        items: 1,
+        axis: "horizontal",
+        controlsContainer: "#testimonial-nav",
+        swipeAngle: !1,
+        speed: 700,
+        nav: !0,
+        controls: !0,
+        autoplay: !0,
+        autoplayHoverPause: !0,
+        autoplayTimeout: 3500,
+        autoplayButtonOutput: !1,
+    });
 
-		if (el.length > 0) {
-			var slider = tns({
-				container: '.testimonial-slider',
-				items: 1,
-				axis: "horizontal",
-				controlsContainer: "#testimonial-nav",
-				swipeAngle: false,
-				speed: 700,
-				nav: true,
-				controls: true,
-				autoplay: true,
-				autoplayHoverPause: true,
-				autoplayTimeout: 3500,
-				autoplayButtonOutput: false
-			});
-		}
-	};
-	tinyslider();
+// Quantity Control Functionality
+!(function () {
+    var e,
+        t = document.getElementsByClassName("quantity-container");
 
-	
+    function a(t) {
+        var a = t.getElementsByClassName("quantity-amount")[0],
+            n = t.getElementsByClassName("increase")[0],
+            l = t.getElementsByClassName("decrease")[0];
 
+        n.addEventListener("click", function (t) {
+            var n, l;
+            (n = t), (l = a), (e = parseInt(l.value, 10)), console.log(l, l.value), (e = isNaN(e) ? 0 : e), e++, (l.value = e);
+        });
 
-	var sitePlusMinus = function() {
+        l.addEventListener("click", function (t) {
+            var n, l;
+            (n = t), (l = a), (e = isNaN((e = parseInt(l.value, 10))) ? 0 : e) > 0 && e--, (l.value = e);
+        });
+    }
 
-		var value,
-    		quantity = document.getElementsByClassName('quantity-container');
-
-		function createBindings(quantityContainer) {
-	      var quantityAmount = quantityContainer.getElementsByClassName('quantity-amount')[0];
-	      var increase = quantityContainer.getElementsByClassName('increase')[0];
-	      var decrease = quantityContainer.getElementsByClassName('decrease')[0];
-	      increase.addEventListener('click', function (e) { increaseValue(e, quantityAmount); });
-	      decrease.addEventListener('click', function (e) { decreaseValue(e, quantityAmount); });
-	    }
-
-	    function init() {
-	        for (var i = 0; i < quantity.length; i++ ) {
-						createBindings(quantity[i]);
-	        }
-	    };
-
-	    function increaseValue(event, quantityAmount) {
-	        value = parseInt(quantityAmount.value, 10);
-
-	        console.log(quantityAmount, quantityAmount.value);
-
-	        value = isNaN(value) ? 0 : value;
-	        value++;
-	        quantityAmount.value = value;
-	    }
-
-	    function decreaseValue(event, quantityAmount) {
-	        value = parseInt(quantityAmount.value, 10);
-
-	        value = isNaN(value) ? 0 : value;
-	        if (value > 0) value--;
-
-	        quantityAmount.value = value;
-	    }
-	    
-	    init();
-		
-	};
-	sitePlusMinus();
-
-
-})()
+    !(function e() {
+        for (var n = 0; n < t.length; n++) a(t[n]);
+    })();
+})();
