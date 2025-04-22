@@ -1,4 +1,4 @@
-const CACHE_NAME = "fitneed-cache-v1";
+const CACHE_NAME = "interior-home-cache-v1";
 const urlsToCache = [
   "index.html",
   "about.html",
@@ -26,9 +26,9 @@ const urlsToCache = [
   "images/post-1.webp",
   "images/post-2.webp",
     "images/post-3.webp",
-  "images/img-grid1.webp",
-  "images/img-grid2.webp",
-  "images/img-grid3.webp",
+  "images/img-grid-1.webp",
+  "images/img-grid-2.webp",
+  "images/img-grid-3.webp",
     "images/couch.webp",
     "images/bag.svg",
     "images/cart.svg",
